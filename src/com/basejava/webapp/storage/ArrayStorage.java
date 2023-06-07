@@ -17,26 +17,38 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        storage[count] = resume;
-        count++;
+        if (count == storage.length) {
+            System.err.println("Unable to add a new resume" + resume + ". The resume list is full.");
+        } else if (storage[count] == null) {
+            storage[count] = resume;
+            count++;
+        }
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < count - 1; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
+        if (isEmpty(storage)) {
+            System.err.println("Resume list is empty.Requested uuid " + uuid + " is missing");
+        } else {
+            for (int i = 0; i < count - 1; i++) {
+                if (storage[i].getUuid().equals(uuid)) {
+                    return storage[i];
+                }
             }
         }
         return null;
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < count - 1; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = storage[count - 1];
-                storage[count - 1] = null;
-                count--;
-                break;
+        if (isEmpty(storage)) {
+            System.err.println("Resume list is empty.Requested uuid " + uuid + " is missing");
+        } else {
+            for (int i = 0; i < count - 1; i++) {
+                if (storage[i].getUuid().equals(uuid)) {
+                    storage[i] = storage[count - 1];
+                    storage[count - 1] = null;
+                    count--;
+                    break;
+                }
             }
         }
     }
@@ -50,5 +62,22 @@ public class ArrayStorage {
 
     public int size() {
         return count;
+    }
+
+    public void update(Resume resume) {
+        if (isEmpty(storage)) {
+            System.err.println("Resume list is empty.Requested resume " + resume + " is missing");
+        } else {
+            for (Resume res : storage) {
+                if (res.equals(resume)) {
+                    System.out.println(res + " " + "update");
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean isEmpty(Resume[] storage) {
+        return storage[0] == null;
     }
 }
