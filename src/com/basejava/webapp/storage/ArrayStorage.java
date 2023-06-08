@@ -28,26 +28,25 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (isEmpty(storage)) {
-            System.err.println("Resume list is empty.Requested uuid " + uuid + " is missing");
-        } else if (index >= 0) {
+        if (index < 0) {
+            System.err.println("Requested uuid " + uuid + " is missing");
+        } else {
             return storage[index];
         }
         return null;
     }
 
     public void delete(String uuid) {
-        if (isEmpty(storage)) {
-            System.err.println("Requested uuid " + uuid + " impossible to delete. Resume list is empty.");
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.err.println("Requested uuid " + uuid + " impossible to delete. Uuid is missing");
         } else {
-            int index = getIndex(uuid);
-            if (index >= 0) {
-                storage[index] = storage[count - 1];
-                storage[count - 1] = null;
-                count--;
-            }
+            storage[index] = storage[count - 1];
+            storage[count - 1] = null;
+            count--;
         }
     }
+
 
     /**
      * @return array, contains only Resumes in storage (without null)
@@ -61,19 +60,12 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (isEmpty(storage)) {
-            System.err.println("Requested resume " + resume + " impossible to update. Resume list is empty.");
-        }
         int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            System.out.println(storage[index] + " " + "update");
+        if (index < 0) {
+            System.err.println("Requested resume " + resume + " impossible to update.The requested resume does not exist");
         } else {
-            System.err.println("The requested resume does not exist");
+            System.out.println(storage[index] + " " + "update");
         }
-    }
-
-    private boolean isEmpty(Resume[] storage) {
-        return storage[0] == null;
     }
 
     private int getIndex(String uuid) {
