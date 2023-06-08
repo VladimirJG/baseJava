@@ -8,7 +8,8 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final int STORAGE_LIMIT = 10_000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int count;
 
     public void clear() {
@@ -18,7 +19,7 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (count == storage.length) {
-            System.err.println("Unable to add a new resume" + resume + ". The resume list is full.");
+            System.err.println("Unable to add a new resume " + resume + ". The resume list is full.");
         } else if (storage[count] == null) {
             storage[count] = resume;
             count++;
@@ -26,29 +27,24 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
+        int index = getIndex(uuid);
         if (isEmpty(storage)) {
             System.err.println("Resume list is empty.Requested uuid " + uuid + " is missing");
-        } else {
-            for (int i = 0; i < count - 1; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    return storage[i];
-                }
-            }
+        } else if (index >= 0) {
+            return storage[index];
         }
         return null;
     }
 
     public void delete(String uuid) {
         if (isEmpty(storage)) {
-            System.err.println("Resume list is empty.Requested uuid " + uuid + " is missing");
+            System.err.println("Requested uuid " + uuid + " impossible to delete. Resume list is empty.");
         } else {
-            for (int i = 0; i < count - 1; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    storage[i] = storage[count - 1];
-                    storage[count - 1] = null;
-                    count--;
-                    break;
-                }
+            int index = getIndex(uuid);
+            if (index >= 0) {
+                storage[index] = storage[count - 1];
+                storage[count - 1] = null;
+                count--;
             }
         }
     }
@@ -66,18 +62,26 @@ public class ArrayStorage {
 
     public void update(Resume resume) {
         if (isEmpty(storage)) {
-            System.err.println("Resume list is empty.Requested resume " + resume + " is missing");
+            System.err.println("Requested resume " + resume + " impossible to update. Resume list is empty.");
+        }
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            System.out.println(storage[index] + " " + "update");
         } else {
-            for (Resume res : storage) {
-                if (res.equals(resume)) {
-                    System.out.println(res + " " + "update");
-                    break;
-                }
-            }
+            System.err.println("The requested resume does not exist");
         }
     }
 
     private boolean isEmpty(Resume[] storage) {
         return storage[0] == null;
+    }
+
+    private int getIndex(String uuid) {
+        for (int i = 0; i < count; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
