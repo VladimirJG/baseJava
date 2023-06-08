@@ -30,23 +30,21 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
+        try {
+            return storage[getIndex(uuid)];
+        } catch (Exception e) {
             System.err.println("Requested uuid " + uuid + " is missing");
-        } else {
-            return storage[index];
         }
         return null;
     }
 
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.err.println("Requested uuid " + uuid + " impossible to delete. Uuid is missing");
-        } else {
-            storage[index] = storage[count - 1];
+        try {
+            storage[getIndex(uuid)] = storage[count - 1];
             storage[count - 1] = null;
             count--;
+        } catch (Exception e) {
+            System.err.println("Requested uuid " + uuid + " impossible to delete. Uuid is missing");
         }
     }
 
@@ -63,11 +61,10 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
+        try {
+            System.out.println(storage[getIndex(resume.getUuid())] + " " + "update");
+        } catch (Exception e) {
             System.err.println("Requested resume " + resume + " impossible to update.The requested resume does not exist");
-        } else {
-            System.out.println(storage[index] + " " + "update");
         }
     }
 
