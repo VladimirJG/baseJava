@@ -18,8 +18,11 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (count == storage.length) {
             System.err.println("Unable to add a new resume " + resume + ". The resume list is full.");
+        } else if (index >= 0) {
+            System.err.println("The resume exists. Resume number " + index);
         } else if (storage[count] == null) {
             storage[count] = resume;
             count++;
