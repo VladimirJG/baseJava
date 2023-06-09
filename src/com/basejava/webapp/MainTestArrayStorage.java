@@ -34,11 +34,12 @@ public class MainTestArrayStorage {
 
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        printAll();
         Resume r4 = new Resume();
         r4.setUuid("uuid4");
         ARRAY_STORAGE.save(r4);
         ARRAY_STORAGE.update(r4);
+        printAll();
+        System.out.println("Size: " + ARRAY_STORAGE.size());
     }
 
     static void printAll() {
