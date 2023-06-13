@@ -25,6 +25,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.err.println("The resume exists. Resume number " + index);
         } else {
             saveResume(resume, index);
+            count++;
         }
     }
 

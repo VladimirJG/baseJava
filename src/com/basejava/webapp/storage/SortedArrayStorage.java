@@ -16,7 +16,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
                 storage[i] = storage[i + 1];
             }
         }
-        count++;
     }
 
     @Override
