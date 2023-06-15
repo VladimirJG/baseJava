@@ -6,14 +6,13 @@ public class ArrayStorage extends AbstractArrayStorage {
 
 
     @Override
-    protected final void saveResume(Resume resume, int index) {
+    protected final void insertElement(Resume resume, int index) {
         storage[count] = resume;
     }
 
     @Override
-    protected final void deleteResume(int index) {
+    protected final void refillVoid(int index) {
         storage[index] = storage[count - 1];
-        storage[count - 1] = null;
     }
 
     @Override

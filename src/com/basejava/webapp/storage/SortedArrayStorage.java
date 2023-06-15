@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected final void saveResume(Resume resume, int index) {
+    protected final void insertElement(Resume resume, int index) {
         for (int i = count; i >= (index * -1) - 1; i--) {
             if (i == (index * -1) - 1) {
                 storage[i] = resume;
@@ -19,7 +19,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected final void deleteResume(int index) {
+    protected final void refillVoid(int index) {
         for (int i = index; i <= count; i++) {
             storage[i] = storage[i + 1];
         }
