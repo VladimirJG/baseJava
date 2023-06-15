@@ -20,9 +20,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected final void refillVoid(int index) {
-        for (int i = index; i <= count; i++) {
-            storage[i] = storage[i + 1];
-        }
+        System.arraycopy(storage, index + 1, storage, index, storage.length - 1 - index);
     }
 
     @Override
