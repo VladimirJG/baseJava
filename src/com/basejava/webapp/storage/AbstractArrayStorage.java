@@ -5,7 +5,7 @@ import com.basejava.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected final int STORAGE_LIMIT = 10_000;
+    protected final int STORAGE_LIMIT = 100_000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count;
 
@@ -16,7 +16,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void save(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (count == storage.length) {
+        if (count == STORAGE_LIMIT) {
             System.err.println("Unable to add a new resume " + resume + ". The resume list overflow.");
         } else if (index >= 0) {
             System.err.println("The resume exists. Resume number " + index);
@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.err.println("Requested uuid " + uuid + " is missing");
         } else {
             return storage[index];
