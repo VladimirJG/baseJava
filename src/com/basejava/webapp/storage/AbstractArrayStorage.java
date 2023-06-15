@@ -60,15 +60,13 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             System.err.println("Requested resume " + resume + " impossible to update.The requested resume does not exist");
         } else {
-            updateResume(index, resume);
+            storage[index] = resume;
         }
     }
 
     protected abstract int getIndex(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
-
-    protected abstract void updateResume(int index, Resume resume);
 
     protected abstract void refillVoid(int index);
 }

@@ -26,12 +26,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected final void updateResume(int index, Resume resume) {
-        resume.setUuid("Update 2");
-        storage[index] = resume;
-    }
-
-    @Override
     protected final int getIndex(String uuid) {
         Resume key = new Resume();
         key.setUuid(uuid);
