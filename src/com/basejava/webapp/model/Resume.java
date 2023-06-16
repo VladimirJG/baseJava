@@ -1,6 +1,5 @@
 package com.basejava.webapp.model;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -33,16 +32,16 @@ public class Resume implements Comparable<Resume> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid);
+        return uuid.equals(resume.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return uuid.hashCode();
     }
 
     @Override
     public int compareTo(Resume o) {
-        return uuid.compareTo(o.getUuid());
+        return uuid.compareTo(o.uuid);
     }
 }

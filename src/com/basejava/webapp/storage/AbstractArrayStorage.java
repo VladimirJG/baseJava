@@ -8,28 +8,28 @@ import com.basejava.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected final int STORAGE_LIMIT = 100_000;
-    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int count;
+    protected int STORAGE_LIMIT = 10000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size;
 
-    public final void clear() {
-        Arrays.fill(storage, 0, count, null);
-        count = 0;
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
-    public final void save(Resume resume) {
+    public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (count == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow ",resume.getUuid());
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow ", resume.getUuid());
         } else if (index >= 0) {
             throw new ExistStorageException(resume.getUuid());
         } else {
             insertElement(resume, index);
-            count++;
+            size++;
         }
     }
 
-    public final Resume get(String uuid) {
+    public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
@@ -37,26 +37,26 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    public final void delete(String uuid) {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
             refillVoid(index);
-            storage[count - 1] = null;
-            count--;
+            storage[size - 1] = null;
+            size--;
         }
     }
 
-    public final Resume[] getAll() {
-        return Arrays.copyOf(storage, count);
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
     }
 
-    public final int size() {
-        return count;
+    public int size() {
+        return size;
     }
 
-    public final void update(Resume resume) {
+    public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
