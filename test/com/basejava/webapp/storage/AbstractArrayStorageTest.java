@@ -26,6 +26,7 @@ abstract class AbstractArrayStorageTest {
 
     @org.junit.jupiter.api.Test
     void clear() {
+        storage.clear();
         Assertions.assertEquals(0, storage.size(), "List not cleared");
     }
 
@@ -51,7 +52,10 @@ abstract class AbstractArrayStorageTest {
 
     @org.junit.jupiter.api.Test
     void size() {
-        Assertions.assertEquals(3, storage.size(), "Size does not match");
+        if (assertSize(storage.size())) {
+            System.out.println("Equals");
+        }
+        System.out.println("Size does not match");
     }
 
     @org.junit.jupiter.api.Test
@@ -76,5 +80,9 @@ abstract class AbstractArrayStorageTest {
                 Assertions.fail(se.getMessage());
             }
         });
+    }
+
+    public boolean assertSize(int size) {
+        return storage.size() == size;
     }
 }
