@@ -6,11 +6,13 @@ import com.basejava.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.lang.reflect.Field;
+
 abstract class AbstractArrayStorageTest {
     private final Storage storage;
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
+    private final String UUID_1 = "uuid1";
+    private final String UUID_2 = "uuid2";
+    private final String UUID_3 = "uuid3";
 
     AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -37,7 +39,14 @@ abstract class AbstractArrayStorageTest {
 
     @org.junit.jupiter.api.Test
     void get() {
-        Assertions.assertEquals("uuid2", UUID_2);
+
+        Field[] fields = storage.getClass().getDeclaredFields();
+        for (Field f :
+                fields) {
+            f.setAccessible(true);
+            f.get(storage);
+        }
+
     }
 
     @org.junit.jupiter.api.Test
@@ -82,7 +91,13 @@ abstract class AbstractArrayStorageTest {
         });
     }
 
-    public boolean assertSize(int size) {
+    private boolean assertSize(int size) {
         return storage.size() == size;
+    }
+
+    private boolean assertGet(Resume resume) throws NoSuchFieldException, IllegalAccessException {
+        Field value = resume.getClass().getDeclaredField(resume.getUuid());
+        value.setAccessible(true);
+        return value.get(resume).equals(storage.get(resume.getUuid()));
     }
 }
