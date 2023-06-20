@@ -34,12 +34,15 @@ abstract class AbstractArrayStorageTest {
     void clear() {
         storage.clear();
         assertSize(0);
-        Assertions.assertArrayEquals(null, storage.getAll());
+        Resume[] newArray = new Resume[0];
+        Assertions.assertArrayEquals(newArray, storage.getAll());
     }
 
     @Test
     void save() {
-        Assertions.assertNotNull(UUID_1);
+        storage.save(RESUME_4);
+        assertGet(RESUME_4);
+        assertSize(4);
     }
 
     @Test
@@ -51,12 +54,16 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void delete() {
-        Assertions.assertNotNull(UUID_3);
+        storage.delete(RESUME_1.getUuid());
+        assertSize(2);
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(RESUME_1.getUuid()));
     }
 
     @Test
     void getAll() {
-        size();
+        Resume[] actual = storage.getAll();
+        Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
+        Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -66,10 +73,11 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void update() {
-        Assertions.assertEquals("uuid1", UUID_1);
+        Resume COPY_RESUME_1 = RESUME_1;
+        storage.update(COPY_RESUME_1);
+        assertGet(COPY_RESUME_1);
     }
 
-    // @org.junit.jupiter.api.Test
     @Test
     void getNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
@@ -78,15 +86,14 @@ abstract class AbstractArrayStorageTest {
     @Test
     void saveOnOverflow() {
         storage.clear();
-        Assertions.assertThrows(StorageException.class, () -> {
-            try {
-                storage.save(new Resume(UUID_1));
-                storage.save(new Resume(UUID_2));
-                storage.save(new Resume(UUID_3));
-            } catch (StorageException se) {
-                Assertions.fail(se.getMessage());
+        try {
+            for (int i = 0; i < 10000; i++) {
+                storage.save(new Resume());
             }
-        });
+        } catch (StorageException se) {
+            Assertions.fail(se.getMessage());
+        }
+        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
 
     private void assertSize(int size) {
