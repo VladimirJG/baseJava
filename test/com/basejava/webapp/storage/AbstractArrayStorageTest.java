@@ -5,12 +5,18 @@ import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 abstract class AbstractArrayStorageTest {
     private final Storage storage;
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
+    private final String UUID_4 = "uuid4";
+    private final Resume RESUME_1 = new Resume(UUID_1);
+    private final Resume RESUME_2 = new Resume(UUID_2);
+    private final Resume RESUME_3 = new Resume(UUID_3);
+    private final Resume RESUME_4 = new Resume(UUID_4);
 
     AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -19,58 +25,57 @@ abstract class AbstractArrayStorageTest {
     @BeforeEach
     public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void clear() {
         storage.clear();
-        Assertions.assertEquals(0, storage.size(), "List not cleared");
+        assertSize(0);
+        Assertions.assertArrayEquals(null, storage.getAll());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void save() {
         Assertions.assertNotNull(UUID_1);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void get() {
-        assertGet(new Resume(UUID_1));
-        assertGet(new Resume(UUID_2));
-        assertGet(new Resume(UUID_3));
+        assertGet(RESUME_1);
+        assertGet(RESUME_2);
+        assertGet(RESUME_3);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void delete() {
         Assertions.assertNotNull(UUID_3);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getAll() {
         size();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void size() {
-        if (assertSize(storage.size())) {
-            System.out.println("Equals");
-        }
-        System.out.println("Size does not match");
+        assertSize(3);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void update() {
         Assertions.assertEquals("uuid1", UUID_1);
     }
 
-    @org.junit.jupiter.api.Test
+    // @org.junit.jupiter.api.Test
+    @Test
     void getNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void saveOnOverflow() {
         storage.clear();
         Assertions.assertThrows(StorageException.class, () -> {
@@ -84,8 +89,8 @@ abstract class AbstractArrayStorageTest {
         });
     }
 
-    private boolean assertSize(int size) {
-        return storage.size() == size;
+    private void assertSize(int size) {
+        Assertions.assertEquals(size, storage.size());
     }
 
     private void assertGet(Resume resume) {
