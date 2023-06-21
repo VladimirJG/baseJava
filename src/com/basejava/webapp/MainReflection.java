@@ -14,7 +14,7 @@ public class MainReflection {
         System.out.println(field.getName());
         System.out.println(field.get(resume));
         field.set(resume, "new resume");
-        Class field1 = resume.getClass();
+        Class<? extends Resume> field1 = resume.getClass();
         System.out.println(Arrays.toString(field1.getDeclaredFields()));
         System.out.println(Arrays.toString(new Field[]{field}));
         System.out.println(resume);
