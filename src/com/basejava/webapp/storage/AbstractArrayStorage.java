@@ -8,9 +8,6 @@ import com.basejava.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
-    public static int STORAGE_LIMIT = 10000;
-    protected Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int size;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -29,13 +26,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    public Resume get(String uuid) {
+    /*public Resume get(String uuid) {
         int index = (int) getSearchKey(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
         return storage[index];
-    }
+    }*/
 
     public void delete(String uuid) {
         int index = (int) getSearchKey(uuid);
@@ -64,6 +61,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
             storage[index] = resume;
         }
     }
+
 
     protected abstract void insertElement(Resume resume, int index);
 
