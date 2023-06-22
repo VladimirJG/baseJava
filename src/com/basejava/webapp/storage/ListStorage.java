@@ -17,7 +17,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void save(Resume resume) {
-        if (storage.contains(resume)){
+        if (storage.contains(resume)) {
             throw new ExistStorageException(resume.getUuid());
         }
         storage.add(resume);
@@ -25,9 +25,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume get(String uuid) {
-       // int index = getIndex(uuid);
-        Resume newResume = new Resume(uuid);
-        int index = storage.indexOf(newResume);
+        int index = (int) getSearchKey(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
@@ -36,17 +34,11 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void delete(String uuid) {
-       /* int index = getIndex(uuid);
+        int index = (int) getSearchKey(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        storage.remove(index);*/
-        Resume newResume = new Resume(uuid);
-        int index = storage.indexOf(newResume);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-         storage.remove(index);
+        storage.remove(index);
     }
 
     @Override
@@ -62,19 +54,15 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void update(Resume resume) {
-       /* int index = getIndex(resume.getUuid());
+        int index = (int) getSearchKey(resume.getUuid());
         if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
         }
-        storage.set(index, resume);*/
-        int index = storage.indexOf(resume);
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        storage.set(index, new Resume("update " + resume));
+        storage.set(index, resume);
     }
 
-    /*public int getIndex(Resume resume) {
-        return storage.indexOf(resume.getUuid());
-    }*/
+    @Override
+    protected Object getSearchKey(String uuid) {
+        return storage.indexOf(uuid);
+    }
 }
