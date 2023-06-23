@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-   protected Map<String, Resume> storage = new HashMap<>();
+    protected Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected Resume doGet(Object searchKey) {
@@ -35,7 +35,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.get(uuid);
+        return uuid;
     }
 
     @Override
@@ -45,9 +45,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] newValueArray = new Resume[storage.size()];
-        storage.values().toArray(newValueArray);
-        return newValueArray;
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override

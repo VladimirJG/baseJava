@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 
 class MapStorageTest {
     private final MapStorage mapStorage = new MapStorage();
@@ -47,7 +49,7 @@ class MapStorageTest {
     @Test
     void get() {
         assertGet(RESUME_1);
-        assertGet(RESUME_4);
+        assertGet(RESUME_2);
         assertGet(RESUME_3);
     }
 
@@ -113,8 +115,10 @@ class MapStorageTest {
     @Test
     void getAll() {
         Resume[] actual = mapStorage.getAll();
+        Arrays.sort(actual);
         Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
         Assertions.assertArrayEquals(expected, actual);
+        Assertions.assertEquals(expected.length, actual.length);
     }
 
     @Test
