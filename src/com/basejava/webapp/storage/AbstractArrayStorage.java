@@ -38,6 +38,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
+    public void doUpdate(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
+    }
+
+    @Override
     protected boolean isExist(Object searchKey) {
         return (int) searchKey >= 0;
     }
@@ -48,11 +53,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public int size() {
         return size;
-    }
-
-    @Override
-    public void doUpdate(Object searchKey, Resume resume) {
-        storage[(int) searchKey] = resume;
     }
 
     protected abstract void insertElement(Resume resume, int index);

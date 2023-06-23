@@ -1,7 +1,5 @@
 package com.basejava.webapp.storage;
 
-import com.basejava.webapp.exception.ExistStorageException;
-import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -16,29 +14,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void save(Resume resume) {
-        if (storage.contains(resume)) {
-            throw new ExistStorageException(resume.getUuid());
-        }
-        storage.add(resume);
+    protected Resume doGet(Object searchKey) {
+        return storage.get((int) searchKey);
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = (int) getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage.get(index);
+    protected void doSave(Object searchKey, Resume resume) {
+        storage.add((int) searchKey, resume);
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = (int) getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        storage.remove(index);
+    protected void doDelete(Object searchKey) {
+        storage.remove((int) searchKey);
+    }
+
+    @Override
+    protected void doUpdate(Object searchKey, Resume resume) {
+        storage.set((int) searchKey, resume);
     }
 
     @Override
@@ -53,21 +45,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = (int) getSearchKey(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        storage.set(index, resume);
-    }
-
-    @Override
-    protected boolean isExist(String uuid) {
-        return !getSearchKey(uuid).equals(-1);
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
     }
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.indexOf(uuid);
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 }
