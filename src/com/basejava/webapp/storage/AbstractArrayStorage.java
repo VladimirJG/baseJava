@@ -1,48 +1,45 @@
 package com.basejava.webapp.storage;
 
-import com.basejava.webapp.exception.ExistStorageException;
-import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
+    public static int STORAGE_LIMIT = 10000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void save(Resume resume) {
-        int index = (int) getSearchKey(resume.getUuid());
+    @Override
+    public void doSave(Object searchKey, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow ", resume.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            insertElement(resume, index);
-            size++;
         }
+        insertElement(resume, (int) searchKey);
+        size++;
     }
 
-    /*public Resume get(String uuid) {
-        int index = (int) getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
-    }*/
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return storage[(int) searchKey];
+    }
 
-    public void delete(String uuid) {
-        int index = (int) getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            refillVoid(index);
-            storage[size - 1] = null;
-            size--;
-        }
+    @Override
+    public void doDelete(Object searchKey) {
+        refillVoid((int) searchKey);
+        storage[size - 1] = null;
+        size--;
+
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
     }
 
     public Resume[] getAll() {
@@ -53,15 +50,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    public void update(Resume resume) {
-        int index = (int) getSearchKey(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            storage[index] = resume;
-        }
+    @Override
+    public void doUpdate(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
     }
-
 
     protected abstract void insertElement(Resume resume, int index);
 

@@ -18,11 +18,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
     }
 
-    @Override
-    protected boolean isExist(String uuid) {
-        int index = (int) getSearchKey(uuid);
-        return index >= 0;
-    }
 
     @Override
     protected Object getSearchKey(String uuid) {

@@ -15,10 +15,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[index] = storage[size - 1];
     }
 
-    @Override
-    protected boolean isExist(String uuid) {
-        return !getSearchKey(uuid).equals(-1);
-    }
 
     protected Object getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
