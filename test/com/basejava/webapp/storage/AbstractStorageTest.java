@@ -2,13 +2,14 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
+import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AbstractStorageTest {
+abstract class AbstractStorageTest {
     private final Storage storage;
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";
@@ -81,6 +82,13 @@ class AbstractStorageTest {
     }
 
     @Test
+    void updateNotSame() {
+        Resume testVariable = new Resume(UUID_1);
+        storage.update(testVariable);
+        Assertions.assertNotSame(RESUME_1, storage.get(UUID_1));
+    }
+
+    @Test
     void clear() {
         storage.clear();
         assertSize(0);
@@ -91,6 +99,19 @@ class AbstractStorageTest {
         Resume[] actual = storage.getAll();
         Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
         Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void saveOverflow() {
+        storage.clear();
+        try {
+            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume());
+            }
+        } catch (StorageException se) {
+            Assertions.fail(se.getMessage());
+        }
+        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
 
     @Test
