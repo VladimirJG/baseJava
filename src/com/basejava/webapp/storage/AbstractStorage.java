@@ -8,41 +8,41 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final void save(Resume resume) {
-        Object searchKey = getNotExistingSearchKey(resume.getUuid());
+        Object searchKey = getNotExistingSearchKey(getKey(resume));
         doSave(searchKey, resume);
 
     }
 
     @Override
-    public final Resume get(String uuid) {
-        Object searchKey = getExistingSearchKey(uuid);
+    public final Resume get(String key) {
+        Object searchKey = getExistingSearchKey(key);
         return doGet(searchKey);
     }
 
     @Override
-    public final void delete(String uuid) {
-        Object searchKey = getExistingSearchKey(uuid);
+    public final void delete(String key) {
+        Object searchKey = getExistingSearchKey(key);
         doDelete(searchKey);
     }
 
     @Override
     public final void update(Resume resume) {
-        Object searchKey = getExistingSearchKey(resume.getUuid());
+        Object searchKey = getExistingSearchKey(getKey(resume));
         doUpdate(searchKey, resume);
     }
 
-    private Object getExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private Object getExistingSearchKey(String key) {
+        Object searchKey = getSearchKey(key);
         if (!isExist(searchKey)) {
-            throw new NotExistStorageException(uuid);
+            throw new NotExistStorageException(key);
         }
         return searchKey;
     }
 
-    private Object getNotExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private Object getNotExistingSearchKey(String key) {
+        Object searchKey = getSearchKey(key);
         if (isExist(searchKey)) {
-            throw new ExistStorageException(uuid);
+            throw new ExistStorageException(key);
         }
         return searchKey;
     }
@@ -57,5 +57,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract Object getSearchKey(String key);
+
+    protected abstract String getKey(Resume resume);
 }

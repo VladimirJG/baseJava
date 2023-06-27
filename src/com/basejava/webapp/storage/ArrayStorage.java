@@ -24,4 +24,9 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
+    @Override
+    protected String getKey(Resume resume) {
+        return resume.getUuid();
+    }
 }
