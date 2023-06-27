@@ -4,6 +4,7 @@ import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     public static int STORAGE_LIMIT = 10000;
@@ -47,8 +48,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) searchKey >= 0;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public List<Resume> getAllSorted() {
+        Resume[] copySt = Arrays.copyOf(storage, size);
+        return Arrays.asList(copySt);
     }
 
     public int size() {

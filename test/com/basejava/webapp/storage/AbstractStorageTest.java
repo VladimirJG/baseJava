@@ -4,12 +4,9 @@ import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 abstract class AbstractStorageTest {
     private final Storage storage;
@@ -97,17 +94,19 @@ abstract class AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
-        Resume[] actual = storage.getAll();
-        Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
+    void getAllSorted() {
+        List<Resume> actual = storage.getAllSorted();
+        List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
         if (storage.getClass() == MapStorage.class) {
-            Arrays.sort(actual);
+            Collections.sort(actual);
         }
-        Assertions.assertArrayEquals(expected, actual);
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
-    void saveOverflow() {
+    void saveOverFlow() {
+        Assumptions.assumeTrue(Objects.equals(storage.getClass(), SortedArrayStorage.class) ||
+                Objects.equals(storage.getClass(), ArrayStorage.class));
         storage.clear();
         try {
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
