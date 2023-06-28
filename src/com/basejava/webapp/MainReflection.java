@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException {
-        Resume resume = new Resume();
+        Resume resume = new Resume("Name");
         Field field = resume.getClass().getDeclaredFields()[0];
 
         field.setAccessible(true);

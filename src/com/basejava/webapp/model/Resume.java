@@ -9,23 +9,19 @@ public class Resume {
 
     private final String uuid;
 
-    private String fullName;
+    private final String fullName;
 
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
-
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getUuid() {
-        return uuid;
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public String getFullName() {
@@ -49,5 +45,4 @@ public class Resume {
     public int hashCode() {
         return uuid.hashCode();
     }
-
 }

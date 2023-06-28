@@ -2,14 +2,16 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
-import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.List;
 
 abstract class AbstractStorageTest {
-    private final Storage storage;
+    protected Storage storage;
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
@@ -80,14 +82,14 @@ abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        Resume testVariable = new Resume(UUID_1);
+        Resume testVariable = new Resume(UUID_1,"updateName");
         storage.update(testVariable);
         Assertions.assertSame(testVariable, storage.get(UUID_1));
     }
 
     @Test
     void updateNotSame() {
-        Resume testVariable = new Resume(UUID_1);
+        Resume testVariable = new Resume(UUID_1, "updateName");
         storage.update(testVariable);
         Assertions.assertNotSame(RESUME_1, storage.get(UUID_1));
     }
@@ -103,21 +105,6 @@ abstract class AbstractStorageTest {
         List<Resume> actual = storage.getAllSorted();
         List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
         Assertions.assertIterableEquals(expected, actual);
-    }
-
-    @Test
-    void saveOverFlow() {
-        Assumptions.assumeTrue(Objects.equals(storage.getClass(), SortedArrayStorage.class) ||
-                Objects.equals(storage.getClass(), ArrayStorage.class));
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException se) {
-            Assertions.fail(se.getMessage());
-        }
-        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
 
     @Test
