@@ -8,41 +8,41 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final void save(Resume resume) {
-        Object searchKey = getNotExistingSearchKey(getKey(resume));
+        Object searchKey = getNotExistingSearchKey(resume.getUuid());
         doSave(searchKey, resume);
 
     }
 
     @Override
-    public final Resume get(String key) {
-        Object searchKey = getExistingSearchKey(key);
+    public final Resume get(String uuid) {
+        Object searchKey = getExistingSearchKey(uuid);
         return doGet(searchKey);
     }
 
     @Override
-    public final void delete(String key) {
-        Object searchKey = getExistingSearchKey(key);
+    public final void delete(String uuid) {
+        Object searchKey = getExistingSearchKey(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public final void update(Resume resume) {
-        Object searchKey = getExistingSearchKey(getKey(resume));
+        Object searchKey = getExistingSearchKey(resume.getUuid());
         doUpdate(searchKey, resume);
     }
 
-    private Object getExistingSearchKey(String key) {
-        Object searchKey = getSearchKey(key);
+    private Object getExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
-            throw new NotExistStorageException(key);
+            throw new NotExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    private Object getNotExistingSearchKey(String key) {
-        Object searchKey = getSearchKey(key);
+    private Object getNotExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
-            throw new ExistStorageException(key);
+            throw new ExistStorageException(uuid);
         }
         return searchKey;
     }
@@ -58,6 +58,4 @@ public abstract class AbstractStorage implements Storage {
     protected abstract boolean isExist(Object searchKey);
 
     protected abstract Object getSearchKey(String key);
-
-    protected abstract String getKey(Resume resume);
 }

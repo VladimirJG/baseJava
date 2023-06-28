@@ -25,7 +25,6 @@ abstract class AbstractStorageTest {
     private final Resume RESUME_3 = new Resume(UUID_3,FULL_NAME_3);
     private final Resume RESUME_4 = new Resume(UUID_4,FULL_NAME_4);
     private final String UUID_NOT_EXIST = "dummy";
-    private final String DOUBLE_NAME = "Rocky Balboa";
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
