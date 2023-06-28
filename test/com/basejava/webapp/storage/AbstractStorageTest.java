@@ -102,9 +102,6 @@ abstract class AbstractStorageTest {
     void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
         List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
-        if (storage.getClass() == MapStorage.class) {
-            Collections.sort(actual);
-        }
         Assertions.assertIterableEquals(expected, actual);
     }
 
