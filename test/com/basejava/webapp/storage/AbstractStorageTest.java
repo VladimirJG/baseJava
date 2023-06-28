@@ -16,14 +16,14 @@ abstract class AbstractStorageTest {
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
     private final String UUID_4 = "uuid4";
-    private final String FULL_NAME_1 = "John Dow";
-    private final String FULL_NAME_2 = "Elton John";
-    private final String FULL_NAME_3 = "James Cameron";
-    private final String FULL_NAME_4 = "Rocky Balboa";
-    private final Resume RESUME_1 = new Resume(UUID_1,FULL_NAME_1);
-    private final Resume RESUME_2 = new Resume(UUID_2,FULL_NAME_2);
-    private final Resume RESUME_3 = new Resume(UUID_3,FULL_NAME_3);
-    private final Resume RESUME_4 = new Resume(UUID_4,FULL_NAME_4);
+    private final String FULL_NAME_1 = "Name1";
+    private final String FULL_NAME_2 = "Name2";
+    private final String FULL_NAME_3 = "Name3";
+    private final String FULL_NAME_4 = "Name4";
+    private final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+    private final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+    private final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+    private final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
     private final String UUID_NOT_EXIST = "dummy";
 
     protected AbstractStorageTest(Storage storage) {
@@ -81,7 +81,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        Resume testVariable = new Resume(UUID_1,"updateName");
+        Resume testVariable = new Resume(UUID_1, "updateName");
         storage.update(testVariable);
         Assertions.assertSame(testVariable, storage.get(UUID_1));
     }
@@ -103,7 +103,7 @@ abstract class AbstractStorageTest {
     void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
         List<Resume> expected = List.of(RESUME_1, RESUME_2, RESUME_3);
-        Assertions.assertIterableEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test

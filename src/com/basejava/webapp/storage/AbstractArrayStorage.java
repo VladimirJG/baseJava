@@ -48,7 +48,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) searchKey >= 0;
     }
 
-    public List<Resume> getAllSorted() {
+    public List<Resume> doGetCopyList() {
         Resume[] copy = Arrays.copyOf(storage, size);
         return Arrays.asList(copy);
     }

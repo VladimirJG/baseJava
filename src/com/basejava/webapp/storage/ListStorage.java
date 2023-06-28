@@ -34,11 +34,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return new ArrayList<>(storage);
-    }
-
-    @Override
     public int size() {
         return storage.size();
     }
@@ -56,5 +51,10 @@ public class ListStorage extends AbstractStorage {
             }
         }
         return null;
+    }
+
+    @Override
+    protected List<Resume> doGetCopyList() {
+        return new ArrayList<>(storage);
     }
 }
