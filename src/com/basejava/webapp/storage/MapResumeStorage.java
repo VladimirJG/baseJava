@@ -2,7 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 
-public class MapNameStorage extends AbstractMapStorage {
+public class MapResumeStorage extends AbstractMapStorage {
 
     @Override
     protected Resume doGet(Object resume) {
