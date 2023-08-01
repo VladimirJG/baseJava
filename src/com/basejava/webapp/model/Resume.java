@@ -26,6 +26,14 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
+    public String getContact(ContactType contact){
+        return contacts.get(contact);
+    }
+
+    public AbstractSection getSection(SectionType section){
+        return sections.get(section);
+    }
+
     public String getFullName() {
         return fullName;
     }
