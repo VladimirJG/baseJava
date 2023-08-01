@@ -2,7 +2,7 @@ package com.basejava.webapp.model;
 
 import java.util.List;
 
-public class ListSection {
+public class ListSection extends AbstractSection {
     private final List<String> listOfTexts;
 
     public ListSection(List<String> sectionDescription) {

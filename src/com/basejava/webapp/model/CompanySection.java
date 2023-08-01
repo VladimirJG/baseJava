@@ -1,4 +1,5 @@
 package com.basejava.webapp.model;
 
-public class CompanySection {
+public class CompanySection extends AbstractSection {
+
 }
