@@ -35,6 +35,7 @@ public class ResumeTestData {
         sections.put(SectionType.OBJECTIVE, new TextSection("Above"));
         sections.put(SectionType.QUALIFICATIONS, new TextSection("poke buttons"));
         Resume resume = createResume("17", "Panda", contacts, sections);
+
         printResume(resume);
     }
 
