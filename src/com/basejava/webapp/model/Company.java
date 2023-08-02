@@ -7,7 +7,6 @@ public class Company {
     private final Link homePage;
     private final LocalDate startDate;
     private final LocalDate endDate;
-
     private final String title;
     private final String description;
 
@@ -20,6 +19,26 @@ public class Company {
         this.endDate = endDate;
         this.title = title;
         this.description = description;
+    }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override

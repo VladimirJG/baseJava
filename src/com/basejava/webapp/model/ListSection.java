@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends AbstractSection {
-    private final List<String> listOfTexts;
+    private final List<String> strings;
 
     public ListSection(List<String> sectionDescription) {
         Objects.requireNonNull(sectionDescription, "sectionDescription must not be null");
-        this.listOfTexts = sectionDescription;
+        this.strings = sectionDescription;
     }
 
-    public List<String> getListOfTexts() {
-        return listOfTexts;
+    public List<String> getStrings() {
+        return strings;
     }
 
     @Override
     public String toString() {
         return "ListSection{" +
-                "listOfTexts=" + listOfTexts +
+                "strings=" + strings +
                 '}';
     }
 
@@ -27,11 +27,11 @@ public class ListSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return Objects.equals(listOfTexts, that.listOfTexts);
+        return Objects.equals(strings, that.strings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(listOfTexts);
+        return Objects.hash(strings);
     }
 }
