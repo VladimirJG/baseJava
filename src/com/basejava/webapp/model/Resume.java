@@ -1,9 +1,6 @@
 package com.basejava.webapp.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -14,8 +11,8 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
-    Map<ContactType, String> contacts = new HashMap<>();
-    Map<SectionType, AbstractSection> sections = new HashMap<>();
+    Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -26,11 +23,11 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
-    public String getContact(ContactType contact){
+    public String getContact(ContactType contact) {
         return contacts.get(contact);
     }
 
-    public AbstractSection getSection(SectionType section){
+    public AbstractSection getSection(SectionType section) {
         return sections.get(section);
     }
 
