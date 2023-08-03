@@ -38,12 +38,12 @@ public class Resume implements Comparable<Resume> {
         return sections.get(section);
     }
 
-    public void setContacts(ContactType key, String value) {
-        contacts.replace(key, value);
+    public void addContacts(ContactType key, String value) {
+        contacts.put(key, value);
     }
 
-    public void setSections(SectionType key, AbstractSection value) {
-        sections.replace(key, value);
+    public void addSections(SectionType key, AbstractSection value) {
+        sections.put(key, value);
     }
 
     public String getFullName() {
