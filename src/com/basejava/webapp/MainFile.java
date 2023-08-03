@@ -40,7 +40,7 @@ public class MainFile {
             if (file.isFile()) {
                 System.out.println("File " + file.getName());
             } else if (file.isDirectory()) {
-                System.out.println("Directory " + file.getName());
+                System.out.println("\n" + " Directory " + "[" + file.getName().toUpperCase() + "]");
                 printCatalogDeep(file);
             }
         }
