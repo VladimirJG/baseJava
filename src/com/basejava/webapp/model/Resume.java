@@ -38,12 +38,12 @@ public class Resume implements Comparable<Resume> {
         return sections.get(section);
     }
 
-    public void setContacts(Map<ContactType, String> contacts) {
-        this.contacts = contacts;
+    public void setContacts(ContactType key, String value) {
+        contacts.replace(key, value);
     }
 
-    public void setSections(Map<SectionType, AbstractSection> sections) {
-        this.sections = sections;
+    public void setSections(SectionType key, AbstractSection value) {
+        sections.replace(key, value);
     }
 
     public String getFullName() {
@@ -59,7 +59,7 @@ public class Resume implements Comparable<Resume> {
         return "Resume{" +
                 "uuid='" + uuid + '\'' + "\n" +
                 " fullName='" + fullName + '\'' + "\n" +
-                " contacts=" + contacts + "\n" +
+                " contacts=" + contacts.toString() + "\n" +
                 " sections=" + sections +
                 '}';
     }

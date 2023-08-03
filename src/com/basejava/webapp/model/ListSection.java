@@ -1,5 +1,6 @@
 package com.basejava.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,11 @@ public class ListSection extends AbstractSection {
         Objects.requireNonNull(sectionDescription, "sectionDescription must not be null");
         this.strings = sectionDescription;
     }
+
+    public ListSection(String... sectionDescription) {
+        this(Arrays.asList(sectionDescription));
+    }
+
 
     public List<String> getStrings() {
         return strings;

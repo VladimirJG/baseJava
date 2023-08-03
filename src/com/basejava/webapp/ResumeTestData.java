@@ -2,45 +2,34 @@ package com.basejava.webapp;
 
 import com.basejava.webapp.model.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Month;
 
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        List<Company> company = new ArrayList<>();
-        company.add(new Company("Basa", "Claiton",
-                LocalDate.of(2010, 5, 21),
-                LocalDate.of(2020, 11, 30),
-                "Bigger poke buttons",
-                "Проектирование и разработка онлайн платформы управления проектами " +
-                        "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
-                        "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+        Resume RESUME = createResume("11", "Dad V.V.");
 
-        Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-        contacts.put(ContactType.TELEPHONE, "1544-1544");
-        contacts.put(ContactType.MAIL, "@mail.com");
-        contacts.put(ContactType.LINKEDIN, "InDinLink");
-        contacts.put(ContactType.HOMEPAGE, "tratata@55.ru");
-        contacts.put(ContactType.SKYPE, "565897444");
-        contacts.put(ContactType.GITHUB, "HOB");
+        RESUME.setContacts(ContactType.TELEPHONE, "1544-1544");
+        RESUME.setContacts(ContactType.MAIL, "@mail.com");
+        RESUME.setContacts(ContactType.LINKEDIN, "InDinLink");
+        RESUME.setContacts(ContactType.HOMEPAGE, "tratata@55.ru");
+        RESUME.setContacts(ContactType.SKYPE, "565897444");
+        RESUME.setContacts(ContactType.GITHUB, "HOB");
 
-        Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
-        sections.put(SectionType.EXPERIENCE, new CompanySection(company));
-        sections.put(SectionType.EDUCATION, new TextSection("Higher"));
-        sections.put(SectionType.ACHIEVEMENT, new TextSection("Ate 7 cutlets in 5 minutes"));
-        sections.put(SectionType.OBJECTIVE, new TextSection("Above"));
-        sections.put(SectionType.QUALIFICATIONS, new TextSection("poke buttons"));
-        Resume resume = createResume("17", "Panda", contacts, sections);
+        RESUME.setSections(SectionType.EXPERIENCE, new CompanySection(new Company("GDA", "https//:@gda.ru",
+                new Company.Position(2018, Month.MAY, "Lawyer", "contracts"),
+                new Company.Position(2013, Month.AUGUST, 2018, Month.MAY, "Lawyer", "pre-trial execution"))));
+        RESUME.setSections(SectionType.PERSONAL, new ListSection("ListSection", "Strong logic", "Creativity"));
+        RESUME.setSections(SectionType.EDUCATION, new TextSection("Higher"));
+        RESUME.setSections(SectionType.ACHIEVEMENT, new ListSection("Ate 7 cutlets in 5 minutes", "Wrote several standalone programs"));
+        RESUME.setSections(SectionType.OBJECTIVE, new TextSection("Programmer"));
+        RESUME.setSections(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
 
-        printResume(resume);
+        System.out.println(RESUME.getSection(SectionType.EXPERIENCE));
     }
 
-    public static Resume createResume(String uuid, String fullName, Map<ContactType, String> contacts, Map<SectionType, AbstractSection> sections) {
-        return new Resume(uuid, fullName, contacts, sections);
+    public static Resume createResume(String uuid, String fullName) {
+        return new Resume(uuid, fullName);
     }
 
     public static void printResume(Resume resume) {
