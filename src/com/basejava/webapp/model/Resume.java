@@ -38,6 +38,14 @@ public class Resume implements Comparable<Resume> {
         return sections.get(section);
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
+    }
+
     public void addContacts(ContactType key, String value) {
         contacts.put(key, value);
     }
