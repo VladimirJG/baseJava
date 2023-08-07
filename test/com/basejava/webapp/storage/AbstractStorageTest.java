@@ -4,14 +4,15 @@ import com.basejava.webapp.ResumeTestData;
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.List;
 
 abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("C:\\project\\basejava\\src\\directory");
     protected Storage storage;
     private final String UUID_1 = "uuid1";
     private final String UUID_2 = "uuid2";
@@ -33,14 +34,10 @@ abstract class AbstractStorageTest {
 
     @BeforeEach
     void setUp() {
+        storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
-    }
-
-    @AfterEach
-    void tearDown() {
-        storage.clear();
     }
 
     @Test
@@ -84,7 +81,7 @@ abstract class AbstractStorageTest {
     void update() {
         Resume testVariable = new Resume(UUID_1, "updateName");
         storage.update(testVariable);
-        Assertions.assertSame(testVariable, storage.get(UUID_1));
+        Assertions.assertEquals(testVariable, storage.get(UUID_1));
     }
 
     @Test
