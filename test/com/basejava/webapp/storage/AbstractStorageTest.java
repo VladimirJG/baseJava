@@ -22,9 +22,9 @@ abstract class AbstractStorageTest {
     private final String FULL_NAME_3 = "Name3";
     private final String FULL_NAME_4 = "Name4";
     private final Resume RESUME_1 = ResumeTestData.createResume(UUID_1, FULL_NAME_1);
-    private final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
-    private final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
-    private final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+    private final Resume RESUME_2 = ResumeTestData.createResume(UUID_2, FULL_NAME_2);
+    private final Resume RESUME_3 = ResumeTestData.createResume(UUID_3, FULL_NAME_3);
+    private final Resume RESUME_4 = ResumeTestData.createResume(UUID_4, FULL_NAME_4);
     private final String UUID_NOT_EXIST = "dummy";
 
     protected AbstractStorageTest(Storage storage) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
-    private File directory;
+    private final File directory;
 
     protected AbstractFileStorage(File directory) {
         assert directory != null;
@@ -34,7 +34,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(File searchKey, Resume resume) {
         try {
-            searchKey.createNewFile();
+            doWrite(resume, searchKey);
         } catch (IOException e) {
             throw new StorageException("Couldn't create file " + searchKey.getAbsolutePath(), searchKey.getName(), e);
         }
@@ -96,7 +96,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     private File[] getList(File directory) {
         File[] files = directory.listFiles();
-        assert files != null;
+        if (files == null) {
+            throw new StorageException("directory cannot be empty", directory.getName());
+        }
         return files;
     }
 }
