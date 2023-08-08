@@ -33,15 +33,15 @@ public class MainFile {
         printCatalogDeep(dir, " ");
     }
 
-    public static void printCatalogDeep(File dir, String string) {
+    public static void printCatalogDeep(File dir, String indent) {
         File[] files = dir.listFiles();
         assert files != null;
         for (File file : files) {
             if (file.isFile()) {
-                System.out.println(string + "File " + file.getName());
+                System.out.println(indent + "File " + file.getName());
             } else if (file.isDirectory()) {
                 System.out.println("\n" + (char) 62 + " Directory " + "[" + file.getName().toUpperCase() + "]");
-                printCatalogDeep(file, string + "  ");
+                printCatalogDeep(file, indent + "  ");
             }
         }
     }
