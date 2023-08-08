@@ -30,18 +30,18 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        printCatalogDeep(dir);
+        printCatalogDeep(dir, " ");
     }
 
-    public static void printCatalogDeep(File dir) {
+    public static void printCatalogDeep(File dir, String string) {
         File[] files = dir.listFiles();
         assert files != null;
         for (File file : files) {
             if (file.isFile()) {
-                System.out.println("File " + file.getName());
+                System.out.println(string + "File " + file.getName());
             } else if (file.isDirectory()) {
-                System.out.println("\n" + " Directory " + "[" + file.getName().toUpperCase() + "]");
-                printCatalogDeep(file);
+                System.out.println("\n" + (char) 62 + " Directory " + "[" + file.getName().toUpperCase() + "]");
+                printCatalogDeep(file, string + "  ");
             }
         }
     }
