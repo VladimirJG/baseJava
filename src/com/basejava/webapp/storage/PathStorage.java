@@ -2,6 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,10 +13,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private final Path path;
+    private final StreamSerializer streamSerializer;
 
-    public AbstractPathStorage(Path searchKey) {
+    public PathStorage(Path searchKey, StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
         path = Paths.get(searchKey.toAbsolutePath().toUri());
         Objects.requireNonNull(path, "path must not be null");
         if (!Files.isDirectory(path) || !Files.isWritable(path)) {
@@ -26,13 +29,12 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path searchKey) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(searchKey)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(searchKey)));
         } catch (IOException e) {
             throw new StorageException("Path read error", getFileName(searchKey), e);
         }
     }
 
-    protected abstract Resume doRead(InputStream input) throws IOException;
 
     @Override
     protected void doSave(Path searchKey, Resume resume) {
@@ -56,13 +58,12 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path searchKey, Resume resume) {
         try {
-            doWrite(resume, new BufferedOutputStream(Files.newOutputStream(searchKey)));
+            streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(searchKey)));
         } catch (IOException e) {
             throw new StorageException("Path write error", resume.getUuid(), e);
         }
     }
 
-    protected abstract void doWrite(Resume resume, OutputStream output) throws IOException;
 
     @Override
     protected boolean isExist(Path searchKey) {
