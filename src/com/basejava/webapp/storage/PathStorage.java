@@ -4,13 +4,15 @@ import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.storage.serializer.StreamSerializer;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
@@ -77,13 +79,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doGetCopyList() {
-        File[] paths = path.toFile().listFiles();
-        assert paths != null;
-        List<Resume> list = new ArrayList<>(paths.length);
-        for (File file : paths) {
-            list.add(doGet(file.toPath()));
-        }
-        return list;
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
