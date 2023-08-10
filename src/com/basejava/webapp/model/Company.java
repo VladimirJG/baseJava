@@ -1,6 +1,8 @@
 package com.basejava.webapp.model;
 
+import com.basejava.webapp.util.JsonLocalDateAdapter;
 import com.basejava.webapp.util.LocalDateAdapter;
+import com.google.gson.annotations.JsonAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -58,8 +60,10 @@ public class Company implements Serializable {
     }
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
+        @JsonAdapter(JsonLocalDateAdapter.class)
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
+        @JsonAdapter(JsonLocalDateAdapter.class)
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endDate;
         private String title;

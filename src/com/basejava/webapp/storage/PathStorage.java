@@ -19,7 +19,7 @@ public class PathStorage extends AbstractStorage<Path> {
     private final Path path;
     private final StreamSerializer streamSerializer;
 
-    public PathStorage(Path searchKey, StreamSerializer streamSerializer) {
+    protected PathStorage(Path searchKey, StreamSerializer streamSerializer) {
         this.streamSerializer = streamSerializer;
         path = Paths.get(searchKey.toAbsolutePath().toUri());
         Objects.requireNonNull(path, "path must not be null");

@@ -15,7 +15,7 @@ public abstract class AbstractStorage<SK> implements Storage {
             .thenComparing(Resume::getUuid);
 
     @Override
-    public final void save(Resume resume) {
+    public void save(Resume resume) {
         LOG.info("Save " + resume);
         SK searchKey = getNotExistingSearchKey(resume.getUuid());
         doSave(searchKey, resume);
@@ -23,21 +23,21 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     @Override
-    public final Resume get(String uuid) {
+    public Resume get(String uuid) {
         LOG.info("Get " + uuid);
         SK searchKey = getExistingSearchKey(uuid);
         return doGet(searchKey);
     }
 
     @Override
-    public final void delete(String uuid) {
+    public void delete(String uuid) {
         LOG.info("Delete " + uuid);
         SK searchKey = getExistingSearchKey(uuid);
         doDelete(searchKey);
     }
 
     @Override
-    public final void update(Resume resume) {
+    public void update(Resume resume) {
         LOG.info("Update " + resume);
         SK searchKey = getExistingSearchKey(resume.getUuid());
         doUpdate(searchKey, resume);
