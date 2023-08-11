@@ -16,65 +16,65 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private final Path path;
+    private final Path directory;
     private final StreamSerializer streamSerializer;
 
-    protected PathStorage(Path searchKey, StreamSerializer streamSerializer) {
+    protected PathStorage(String searchKey, StreamSerializer streamSerializer) {
+        Objects.requireNonNull(searchKey, "Directory must not be null");
         this.streamSerializer = streamSerializer;
-        path = Paths.get(searchKey.toAbsolutePath().toUri());
-        Objects.requireNonNull(path, "path must not be null");
-        if (!Files.isDirectory(path) || !Files.isWritable(path)) {
-            throw new IllegalArgumentException(searchKey + " is not path or is not writable");
+        directory = Paths.get(searchKey);
+        if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
+            throw new IllegalArgumentException(searchKey + " is not directory or is not writable");
         }
     }
 
     @Override
-    protected Resume doGet(Path searchKey) {
+    protected Resume doGet(Path path) {
         try {
-            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(searchKey)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", getFileName(searchKey), e);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
 
     @Override
-    protected void doSave(Path searchKey, Resume resume) {
+    protected void doSave(Path path, Resume resume) {
         try {
-            Files.createFile(searchKey);
+            Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create path " + searchKey, getFileName(searchKey), e);
+            throw new StorageException("Couldn't create path " + path, getFileName(path), e);
         }
-        doUpdate(searchKey, resume);
+        doUpdate(path,resume);
     }
 
     @Override
-    protected void doDelete(Path searchKey) {
+    protected void doDelete(Path path) {
         try {
-            Files.delete(searchKey);
+            Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", getFileName(searchKey), e);
+            throw new StorageException("Path delete error", getFileName(path), e);
         }
     }
 
     @Override
-    protected void doUpdate(Path searchKey, Resume resume) {
+    protected void doUpdate(Path path, Resume resume) {
         try {
-            streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(searchKey)));
+            streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path write error", resume.getUuid(), e);
+            throw new StorageException("Directory write error", resume.getUuid(), e);
         }
     }
 
 
     @Override
-    protected boolean isExist(Path searchKey) {
-        return Files.isRegularFile(searchKey);
+    protected boolean isExist(Path path) {
+        return Files.isRegularFile(path);
     }
 
     @Override
     protected Path getSearchKey(String key) {
-        return path.resolve(key);
+        return directory.resolve(key);
     }
 
     @Override
@@ -92,15 +92,15 @@ public class PathStorage extends AbstractStorage<Path> {
         return (int) getFilesList().count();
     }
 
-    private String getFileName(Path searchKey) {
-        return searchKey.getFileName().toString();
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 
     private Stream<Path> getFilesList() {
         try {
-            return Files.list(path);
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Path read error", e);
+            throw new StorageException("Directory read error", e);
         }
     }
 }
