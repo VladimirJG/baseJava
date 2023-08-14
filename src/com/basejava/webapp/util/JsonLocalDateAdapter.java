@@ -7,7 +7,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 public class JsonLocalDateAdapter extends TypeAdapter<LocalDate> {
     @Override
@@ -25,6 +24,6 @@ public class JsonLocalDateAdapter extends TypeAdapter<LocalDate> {
             in.nextNull();
             return null;
         }
-        return ZonedDateTime.parse(in.nextString()).toLocalDate();
+        return LocalDate.parse(in.nextString());
     }
 }
