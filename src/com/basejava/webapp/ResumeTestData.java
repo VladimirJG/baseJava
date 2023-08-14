@@ -19,7 +19,7 @@ public class ResumeTestData {
         resume.addSections(SectionType.EXPERIENCE, new CompanySection(new Company("GDA", "https://@gda.ru",
                 new Company.Position(2018, Month.MAY, "Lawyer", "contracts"),
                 new Company.Position(2013, Month.AUGUST, 2018, Month.MAY, "Lawyer", "pre-trial execution"))));
-        resume.addSections(SectionType.PERSONAL, new ListSection("ListSection", "Strong logic", "Creativity"));
+        resume.addSections(SectionType.PERSONAL, new TextSection("Personal data"));
         resume.addSections(SectionType.EDUCATION, new CompanySection(
                 new Company("Institute", null,
                         new Company.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
