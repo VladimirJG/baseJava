@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import static com.basejava.webapp.util.DateUtil.NOW;
 import static com.basejava.webapp.util.DateUtil.of;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
     @Serial
@@ -41,6 +42,10 @@ public class Company implements Serializable {
         return homePage;
     }
 
+    public List<Position> getPositions() {
+        return positions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,6 +63,7 @@ public class Company implements Serializable {
     public String toString() {
         return "Company{" + homePage + positions + '}';
     }
+
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         @JsonAdapter(JsonLocalDateAdapter.class)
@@ -79,7 +85,7 @@ public class Company implements Serializable {
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.description = description;
+            this.description = description == null ? "" : description;
         }
 
         public Position(int startYear, Month startMonth, String title, String description) {

@@ -13,13 +13,13 @@ public class ListSection extends AbstractSection {
     public ListSection() {
     }
 
-    public ListSection(List<String> sectionDescription) {
-        Objects.requireNonNull(sectionDescription, "sectionDescription must not be null");
-        this.strings = sectionDescription;
+    public ListSection(String... strings) {
+        this(Arrays.asList(strings));
     }
 
-    public ListSection(String... sectionDescription) {
-        this(Arrays.asList(sectionDescription));
+    public ListSection(List<String> strings) {
+        Objects.requireNonNull(strings, "strings must not be null");
+        this.strings = strings;
     }
 
 
@@ -29,9 +29,7 @@ public class ListSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "ListSection{" +
-                "strings=" + strings +
-                '}';
+        return strings.toString();
     }
 
     @Override
