@@ -30,6 +30,8 @@ public class MainStream {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private static List<Integer> oddOrEven(List<Integer> integers) {
         Integer num = integers.stream().reduce(Integer::sum).get();
+        System.out.println(num);
+        /*boolean b = num % 2 == 0 ? integers.removeIf(s -> s % 2 == 0) : integers.removeIf(s -> s % 2 != 0);*/
         integers.removeIf(s -> (num % 2 == 0) == (s % 2 == 0));
 
         return integers;
