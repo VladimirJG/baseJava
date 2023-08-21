@@ -6,6 +6,7 @@ import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -57,21 +58,61 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM resume WHERE uuid=?")
+        ) {
+            preparedStatement.setString(1, uuid);
+            int result = preparedStatement.executeUpdate();
+            if (result == 0) {
+                throw new NotExistStorageException(uuid);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return null;
+        List<Resume> list = new ArrayList<>();
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name,uuid")
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+        return list;
     }
 
     @Override
     public int size() {
-        return 0;
+
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT count(*) FROM resume")
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public void update(Resume resume) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")
+        ) {
+            preparedStatement.setString(1, resume.getFullName());
+            preparedStatement.setString(2, resume.getUuid());
+            int resultSet = preparedStatement.executeUpdate();
+            if (resultSet == 0) {
+                throw new NotExistStorageException(resume.getUuid());
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 }
