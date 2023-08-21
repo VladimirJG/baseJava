@@ -1,5 +1,6 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
@@ -36,7 +37,7 @@ public class SqlStorage implements Storage {
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new StorageException(e);
+            throw new ExistStorageException(resume.getUuid());
         }
     }
 

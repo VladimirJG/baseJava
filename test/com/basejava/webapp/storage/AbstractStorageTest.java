@@ -1,7 +1,6 @@
 package com.basejava.webapp.storage;
 
 import com.basejava.webapp.Config;
-import com.basejava.webapp.ResumeTestData;
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
@@ -11,23 +10,28 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected Storage storage;
-    private final String UUID_1 = "uuid1";
-    private final String UUID_2 = "uuid2";
-    private final String UUID_3 = "uuid3";
-    private final String UUID_4 = "uuid4";
+    private final String UUID_1 = UUID.randomUUID().toString();
+    private final String UUID_2 = UUID.randomUUID().toString();
+    private final String UUID_3 = UUID.randomUUID().toString();
+    private final String UUID_4 = UUID.randomUUID().toString();
     private final String FULL_NAME_1 = "Name1";
     private final String FULL_NAME_2 = "Name2";
     private final String FULL_NAME_3 = "Name3";
     private final String FULL_NAME_4 = "Name4";
-    private final Resume RESUME_1 = ResumeTestData.createResume(UUID_1, FULL_NAME_1);
+    /*private final Resume RESUME_1 = ResumeTestData.createResume(UUID_1, FULL_NAME_1);
     private final Resume RESUME_2 = ResumeTestData.createResume(UUID_2, FULL_NAME_2);
     private final Resume RESUME_3 = ResumeTestData.createResume(UUID_3, FULL_NAME_3);
-    private final Resume RESUME_4 = ResumeTestData.createResume(UUID_4, FULL_NAME_4);
+    private final Resume RESUME_4 = ResumeTestData.createResume(UUID_4, FULL_NAME_4);*/
+    private final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+    private final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+    private final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+    private final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
     private final String UUID_NOT_EXIST = "dummy";
 
     protected AbstractStorageTest(Storage storage) {
