@@ -50,14 +50,11 @@ public class SqlStorage implements Storage {
                     if (!resultSet.next()) {
                         throw new NotExistStorageException(uuid);
                     }
-                    Resume r = new Resume(uuid, resultSet.getString("full_name"));
+                    Resume resume = new Resume(uuid, resultSet.getString("full_name"));
                     do {
-                        String value = resultSet.getString("value");
-                        if (value != null) {
-                            r.addContacts(ContactType.valueOf(resultSet.getString("type")), value);
-                        }
+                        addContact(resultSet, resume);
                     } while (resultSet.next());
-                    return r;
+                    return resume;
                 });
     }
 
@@ -74,7 +71,6 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<>();
         return sqlHelper.execute("SELECT * FROM resume r " +
                         "LEFT JOIN contact c on r.uuid = c.resume_uuid " +
                         "ORDER BY full_name, uuid",
@@ -96,8 +92,8 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return sqlHelper.execute("SELECT count(*) FROM resume", preparedStatement -> {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        return sqlHelper.execute("SELECT count(*) FROM resume", statement -> {
+            ResultSet resultSet = statement.executeQuery();
             return resultSet.next() ? resultSet.getInt(1) : 0;
         });
     }
@@ -124,7 +120,7 @@ public class SqlStorage implements Storage {
             for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.setString(2, entry.getKey().getName());
-                preparedStatement.setString(2, entry.getValue());
+                preparedStatement.setString(3, entry.getValue());
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();

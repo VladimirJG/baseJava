@@ -1,8 +1,7 @@
 package com.basejava.webapp;
 
-import com.basejava.webapp.model.*;
-
-import java.time.Month;
+import com.basejava.webapp.model.ContactType;
+import com.basejava.webapp.model.Resume;
 
 
 public class ResumeTestData {
@@ -11,7 +10,7 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
         resume.addContacts(ContactType.TELEPHONE, "1544-1544");
         resume.addContacts(ContactType.MAIL, "@mail.com");
-        resume.addContacts(ContactType.LINKEDIN, "InDinLink");
+       /* resume.addContacts(ContactType.LINKEDIN, "InDinLink");
         resume.addContacts(ContactType.HOMEPAGE, "tratata@55.ru");
         resume.addContacts(ContactType.SKYPE, "565897444");
         resume.addContacts(ContactType.GITHUB, "HOB");
@@ -27,8 +26,15 @@ public class ResumeTestData {
                 new Company("Organization12", "http://Organization12.ru")));
         resume.addSections(SectionType.ACHIEVEMENT, new ListSection("Ate 7 cutlets in 5 minutes", "Wrote several standalone programs"));
         resume.addSections(SectionType.OBJECTIVE, new TextSection("Programmer"));
-        resume.addSections(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+        resume.addSections(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));*/
 
+        return resume;
+    }
+
+    public static Resume createRII(String uuid, String fullName){
+        Resume resume = new Resume(uuid, fullName);
+        resume.addContacts(ContactType.SKYPE, "565897444");
+        resume.addContacts(ContactType.GITHUB, "HOB");
         return resume;
     }
 

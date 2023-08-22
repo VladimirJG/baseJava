@@ -3,6 +3,7 @@ package com.basejava.webapp.storage;
 import com.basejava.webapp.Config;
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
+import com.basejava.webapp.model.ContactType;
 import com.basejava.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,8 +50,8 @@ abstract class AbstractStorageTest {
     @Test
     void save() {
         storage.save(RESUME_4);
-        assertGet(RESUME_4);
         assertSize(4);
+        assertGet(RESUME_4);
     }
 
     @Test
@@ -86,6 +87,9 @@ abstract class AbstractStorageTest {
     @Test
     void update() {
         Resume testVariable = new Resume(UUID_1, "updateName");
+        RESUME_1.addContacts(ContactType.MAIL, "mail1@google.com");
+        RESUME_1.addContacts(ContactType.SKYPE, "NewSkype");
+        RESUME_1.addContacts(ContactType.TELEPHONE, "+7 921 222-22-22");
         storage.update(testVariable);
         Assertions.assertEquals(testVariable, storage.get(UUID_1));
     }
