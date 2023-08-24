@@ -197,7 +197,7 @@ public class SqlStorage implements Storage {
     private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
         String value = resultSet.getString("value");
         if (value != null) {
-            resume.addContacts(ContactType.valueOf(resultSet.getString("type")), value);
+            resume.addContacts(ContactType.valueOf(resultSet.getString("type").toUpperCase()), value);
         }
     }
    /* public Map<String, String> getAllResume() {
