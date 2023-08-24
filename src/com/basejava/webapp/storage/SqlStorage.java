@@ -6,10 +6,7 @@ import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -141,4 +138,17 @@ public class SqlStorage implements Storage {
             resume.addContacts(ContactType.valueOf(resultSet.getString("type")), value);
         }
     }
+   /* public Map<String, String> getAllResume() {
+        return sqlHelper.execute("SELECT * FROM resume", preparedStatement -> {
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    Map<String, String> map = new HashMap<>();
+                    while (resultSet.next()) {
+                        String uuid = resultSet.getString("uuid");
+                        String fn = resultSet.getString("full_name");
+                        map.put(uuid, fn);
+                    }
+                    return map;
+                }
+        );
+    }*/
 }
