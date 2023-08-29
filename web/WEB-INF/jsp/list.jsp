@@ -6,23 +6,26 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
-    <title>Список всех резюме</title>
+    <title>Списки резюме</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table border="10" cellpadding="18" cellspacing="5">
         <tr>
-            <th>Имя</th>
+            <th>Name</th>
             <th>Email</th>
-            <th></th>
-            <th></th>
+            <th>Phone</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
+        <jsp:useBean id="resumes" scope="request" type="java.util.List"/>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="com.basejava.webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
                 <td><%=ContactType.MAIL.toHtml(resume.getContact(ContactType.MAIL))%></td>
+                <td><%=ContactType.TELEPHONE.toHtml(resume.getContact(ContactType.TELEPHONE))%></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
             </tr>
