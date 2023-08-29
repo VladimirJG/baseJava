@@ -5,13 +5,13 @@ public enum ContactType {
     SKYPE("Skype") {
         @Override
         public String toHtml0(String value) {
-            return getName() + ": " + toLink("skype:" + value, value);
+            return getTitle() + ": " + toLink("skype:" + value, value);
         }
     },
     MAIL("Mail") {
         @Override
         public String toHtml0(String value) {
-            return getName() + ": " + toLink("mailto:" + value, value);
+            return getTitle() + ": " + toLink("mailto:" + value, value);
         }
     },
     LINKEDIN("Linkedin") {
@@ -38,18 +38,18 @@ public enum ContactType {
             return toLink(value);
         }
     };
-    private final String name;
+    private final String title;
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    ContactType(String name) {
-        this.name = name;
+    ContactType(String title) {
+        this.title = title;
     }
 
     protected String toHtml0(String value) {
-        return name + ": " + value;
+        return title + ": " + value;
     }
 
     public String toHtml(String value) {
@@ -57,10 +57,10 @@ public enum ContactType {
     }
 
     public String toLink(String href) {
-        return toLink(href, name);
+        return toLink(href, title);
     }
 
-    public static String toLink(String href, String name) {
-        return "<a href='" + href + "'>" + name + "</a>";
+    public static String toLink(String href, String title) {
+        return "<a href='" + href + "'>" + title + "</a>";
     }
 }

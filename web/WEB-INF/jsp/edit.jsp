@@ -24,7 +24,7 @@
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
-                <dt>${type.name}</dt>
+                <dt>${type.title}</dt>
                 <dd><label>
                     <input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}">
                 </label></dd>
@@ -34,7 +34,7 @@
         <c:forEach var="type" items="<%=SectionType.values()%>">
             <c:set var="section" value="${resume.getSection(type)}"/>
             <jsp:useBean id="section" type="com.basejava.webapp.model.AbstractSection"/>
-            <h2><a>${type.title}</a></h2>
+            <h2><a>${type.name()}</a></h2>
             <c:choose>
                 <c:when test="${type=='OBJECTIVE'}">
                     <label>

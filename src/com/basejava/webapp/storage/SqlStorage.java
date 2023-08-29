@@ -163,7 +163,7 @@ public class SqlStorage implements Storage {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
                 preparedStatement.setString(1, resume.getUuid());
-                preparedStatement.setString(2, entry.getKey().getName());
+                preparedStatement.setString(2, entry.getKey().getTitle());
                 preparedStatement.setString(3, entry.getValue());
                 preparedStatement.addBatch();
             }
