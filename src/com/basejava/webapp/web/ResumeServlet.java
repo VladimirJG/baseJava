@@ -41,21 +41,38 @@ public class ResumeServlet extends HttpServlet {
                 return;
             }
             case "view" -> resume = storage.get(uuid);
+            case "add" -> resume = Resume.EMPTY;
             case "edit" -> {
                 resume = storage.get(uuid);
-                for (SectionType type : new SectionType[]{SectionType.EXPERIENCE, SectionType.EDUCATION}) {
-                    CompanySection section = (CompanySection) resume.getSection(type);
-                    List<Company> emptyFirstOrganizations = new ArrayList<>();
-                    emptyFirstOrganizations.add(Company.EMPTY);
-                    if (section != null) {
-                        for (Company company : section.getCompanies()) {
-                            List<Company.Position> emptyFirstPositions = new ArrayList<>();
-                            emptyFirstPositions.add(Company.Position.EMPTY);
-                            emptyFirstPositions.addAll(company.getPositions());
-                            emptyFirstOrganizations.add(new Company(company.getHomePage(), emptyFirstPositions));
+                for (SectionType type : SectionType.values()) {
+                    AbstractSection section = resume.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE, PERSONAL -> {
+                            if (section == null) {
+                                section = TextSection.EMPTY;
+                            }
+                        }
+                        case ACHIEVEMENT, QUALIFICATIONS -> {
+                            if (section == null) {
+                                section = ListSection.EMPTY;
+                            }
+                        }
+                        case EXPERIENCE, EDUCATION -> {
+                            CompanySection companySection = (CompanySection) section;
+                            List<Company> emptyFirstCompanies = new ArrayList<>();
+                            emptyFirstCompanies.add(Company.EMPTY);
+                            if (companySection != null) {
+                                for (Company company : companySection.getCompanies()) {
+                                    List<Company.Position> emptyFirstPositions = new ArrayList<>();
+                                    emptyFirstPositions.add(Company.Position.EMPTY);
+                                    emptyFirstPositions.addAll(company.getPositions());
+                                    emptyFirstCompanies.add(new Company(company.getHomePage(), emptyFirstPositions));
+                                }
+                            }
+                            section = new CompanySection(emptyFirstCompanies);
                         }
                     }
-                    resume.addSections(type, new CompanySection(emptyFirstOrganizations));
+                    resume.addSections(type, section);
                 }
             }
             default -> throw new IllegalArgumentException("Action " + action + " is illegal");
@@ -72,8 +89,14 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
+        final boolean isCreate = (uuid == null || uuid.isEmpty());
+        Resume resume;
+        if (isCreate) {
+            resume = new Resume(fullName);
+        } else {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+        }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (HtmlUtil.isEmpty(value)) {
@@ -116,7 +139,11 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        storage.update(resume);
+        if (isCreate) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
     }
 }

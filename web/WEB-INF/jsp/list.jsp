@@ -11,6 +11,8 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
+    <a href="resume?action=add"><img src="img/add.png" alt="Add"></a>
+    <br>
     <table cellspacing="8" cellpadding="10" border="10" width="100%">
         <tr>
             <th>Name</th>
