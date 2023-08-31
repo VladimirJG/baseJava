@@ -21,6 +21,7 @@ public class Config {
         add("11111111-1111-1111-1111-111111111111");
         add("22222222-2222-2222-2222-222222222222");
     }};
+
     public static Config get() {
         return INSTANCE;
     }
@@ -43,6 +44,7 @@ public class Config {
     public Storage getStorage() {
         return storage;
     }
+
     private static File getHomeDir() {
         String prop = System.getProperty("homeDir");
         File homeDir = new File(prop == null ? "." : prop);
@@ -51,6 +53,7 @@ public class Config {
         }
         return homeDir;
     }
+
     public boolean isImmutable(String uuids) {
         return immutableUuids.contains(uuids);
     }
