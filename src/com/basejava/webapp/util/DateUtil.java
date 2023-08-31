@@ -10,7 +10,7 @@ public class DateUtil {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
 
     public static LocalDate of(int year, Month month) {
-        return LocalDate.of(year, month, 1);
+        return LocalDate.of(year, month, NOW.getDayOfMonth());
     }
 
     public static String format(LocalDate date) {
@@ -21,6 +21,6 @@ public class DateUtil {
     public static LocalDate parse(String date) {
         if (HtmlUtil.isEmpty(date) || "Сейчас".equals(date)) return NOW;
         YearMonth yearMonth = YearMonth.parse(date, DATE_FORMATTER);
-        return LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        return LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), NOW.getDayOfMonth());
     }
 }
