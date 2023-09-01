@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Set;
 
 public class Config {
-    private static final File PROPS = new File(getHomeDir(), "config\\resumes.properties");
+    private static final String PROPS = "C:\\project\\basejava\\config\\resumes.properties";
     private static final Config INSTANCE = new Config();
     /*private final Properties props = new Properties();*/
     private final File storageDir;
@@ -33,7 +33,7 @@ public class Config {
             storageDir = new File(props.getProperty("storage.dir"));
             storage = new SqlStorage(props.getProperty("db.url"), props.getProperty("db.user"), props.getProperty("db.password"));
         } catch (IOException e) {
-            throw new IllegalStateException("Invalid config file " + PROPS.getAbsolutePath());
+            throw new IllegalStateException("Invalid config file " + PROPS);
         }
     }
 
@@ -45,14 +45,14 @@ public class Config {
         return storage;
     }
 
-    private static File getHomeDir() {
+    /*private static File getHomeDir() {
         String prop = System.getProperty("homeDir");
         File homeDir = new File(prop == null ? "." : prop);
         if (!homeDir.isDirectory()) {
             throw new IllegalStateException(homeDir + " is not directory");
         }
         return homeDir;
-    }
+    }*/
 
     public boolean isImmutable(String uuids) {
         return immutableUuids.contains(uuids);
