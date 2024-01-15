@@ -15,5 +15,3 @@
      -  в реляционной базе [PostgreSQL](https://ru.wikipedia.org/wiki/PostgreSQL)
   - **Установку (деплой) web-приложения:**
      - в контейнер сервлетов [Tomcat](https://ru.wikipedia.org/wiki/Apache_Tomcat)
-     - в облачный сервис [Heroku](https://ru.wikipedia.org/wiki/Heroku)
-
